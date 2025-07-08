@@ -12,7 +12,6 @@ class SqliteStorage:
 
         c.execute('''
             CREATE TABLE IF NOT EXISTS param (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 nl INTEGER,
                 n1grs INTEGER,
                 distr TEXT,
@@ -29,7 +28,6 @@ class SqliteStorage:
 
         c.execute('''
             CREATE TABLE IF NOT EXISTS time (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 cpu_test REAL,
                 fft REAL,
                 read_data REAL,
@@ -43,7 +41,6 @@ class SqliteStorage:
 
         c.execute('''
             CREATE TABLE IF NOT EXISTS verif (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 valid INTEGER,
                 verif_data TEXT
             )
@@ -51,14 +48,12 @@ class SqliteStorage:
 
         c.execute('''
             CREATE TABLE IF NOT EXISTS strobe (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 array TEXT
             )
         ''')
 
         c.execute('''
             CREATE TABLE IF NOT EXISTS output (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 out_arr TEXT,
                 out_verif TEXT
             )
@@ -66,7 +61,6 @@ class SqliteStorage:
 
         c.execute('''
             CREATE TABLE IF NOT EXISTS data (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 polar INTEGER,
                 path TEXT,
                 param_id INTEGER,
@@ -167,5 +161,5 @@ class SqliteStorage:
         ))
 
         self.conn.commit()
-        print("✅ Data imported successfully.")
+        print("данные успешно импортированы в базу данных")
 
