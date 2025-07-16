@@ -1,8 +1,11 @@
-from sqlite_storage import SqliteStorage
+from sqlite_db import SQLiteDB
+from json_loader import JSONLoader
+from base_model import Param
 
 def main():
-    db = SqliteStorage("my_data.db")
-    db.import_from_json("storage/data.json", "storage/storbe.json")
+    db = SQLiteDB("my_data.db")
+    data = JSONLoader.load_from_file("storage/data.json", Param)
+    db.insert_many(data)
 
 if __name__ == "__main__":
     main()
