@@ -1,4 +1,4 @@
-from base_model import BaseModel
+from storage.base_model import BaseModel
 import json
 from typing import Dict, Any
 
@@ -25,6 +25,8 @@ class Param(BaseModel):
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "Param":
+        if 'params' in data:
+            data = data['params']
         return cls(**data)
 
     @classmethod

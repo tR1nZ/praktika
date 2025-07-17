@@ -1,7 +1,7 @@
 import sqlite3
 from typing import List, Dict, Tuple
-from db_interface import DBInterface
-from base_model import BaseModel
+from storage.db_interface import DBInterface
+from storage.models import BaseModel
 
 class SQLiteDB(DBInterface):
     def __init__(self, db_path: str):

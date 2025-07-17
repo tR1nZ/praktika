@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List, Dict, Tuple
-from base_model import BaseModel
+from storage.base_model import BaseModel
 
 class DBInterface(ABC):
     @abstractmethod
