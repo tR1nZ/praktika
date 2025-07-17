@@ -21,14 +21,14 @@ class BaseModel(ABC):
         pass
 
 class Param(BaseModel):
-    def __init__(self, distr: str, is_am: bool, kgd: int):
-        self.distr = distr
+    def __init__(self, dlstr: str, is_am: bool, kgd: int):
+        self.dlstr = dlstr
         self.is_am = is_am
         self.kgd = kgd
 
     def to_dict(self) -> Dict[str, Any]:
         return {
-            "distr": self.distr,
+            "dlstr": self.dlstr,
             "is_am": self.is_am,
             "kgd": self.kgd
         }
@@ -36,7 +36,7 @@ class Param(BaseModel):
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "Param":
         return cls(
-            distr=data["distr"],
+            dlstr=data["dlstr"],
             is_am=data["is_am"],
             kgd=data["kgd"]
         )

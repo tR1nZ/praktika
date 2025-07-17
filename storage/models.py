@@ -4,8 +4,8 @@ from typing import Dict, Any
 
 
 class Param(BaseModel):
-    def __init__(self, distr, is_am, kgd, kgrs, n1grs, ndec, nfgd_fu, nl, samples_num, shgd, true_nins):
-        self.distr = distr
+    def __init__(self, dlstr, is_am, kgd, kgrs, n1grs, ndec, nfgd_fu, nl, samples_num, shgd, true_nihs):
+        self.dlstr = dlstr
         self.is_am = is_am
         self.kgd = kgd
         self.kgrs = kgrs
@@ -15,7 +15,7 @@ class Param(BaseModel):
         self.nl = nl
         self.samples_num = samples_num
         self.shgd = shgd
-        self.true_nins = true_nins
+        self.true_nihs = true_nihs
 
     def to_dict(self) -> Dict[str, Any]:
         return self.__dict__
