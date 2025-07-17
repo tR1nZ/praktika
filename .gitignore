@@ -1,5 +1,5 @@
 my_data.db
 .venv
-storage/data.json
-storage/strobe.json
+examples/data.json
+examples/strobe.json
 storage/__pycache__
