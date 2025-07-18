@@ -12,11 +12,6 @@ class BaseModel(ABC):
         return cls.__name__
 
     @abstractmethod
-    def to_db_dict(self) -> Dict[str, Any]:
-        pass
-
-    @classmethod
-    @abstractmethod
-    def get_table_name(cls) -> str:
+    def to_dict(self) -> Dict[str, Any]:
         pass
 

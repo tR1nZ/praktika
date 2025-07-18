@@ -20,8 +20,6 @@ class Param(BaseModel):
     def to_dict(self) -> Dict[str, Any]:
         return self.__dict__
 
-    def to_db_dict(self) -> Dict[str, Any]:
-        return self.__dict__
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "Param":
@@ -48,8 +46,6 @@ class Time(BaseModel):
     def to_dict(self) -> Dict[str, Any]:
         return self.__dict__
 
-    def to_db_dict(self) -> Dict[str, Any]:
-        return self.__dict__
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "Time":
@@ -70,9 +66,6 @@ class Verif(BaseModel):
     def to_dict(self) -> Dict[str, Any]:
         return self.__dict__
 
-    def to_db_dict(self) -> Dict[str, Any]:
-        return self.__dict__
-
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "Verif":
         return cls(**data)
@@ -88,9 +81,6 @@ class Strobe(BaseModel):
 
     def to_dict(self) -> Dict[str, Any]:
         return {"values": self.values}
-
-    def to_db_dict(self) -> Dict[str, Any]:
-        return {"values": json.dumps(self.values)}
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "Strobe":
@@ -108,9 +98,6 @@ class Output(BaseModel):
 
     def to_dict(self) -> Dict[str, Any]:
         return {"out_arr": self.out_arr, "out_verif": self.out_verif}
-
-    def to_db_dict(self) -> Dict[str, Any]:
-        return {"out_arr": json.dumps(self.out_arr), "out_verif": self.out_verif}
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "Output":
@@ -134,8 +121,6 @@ class Data(BaseModel):
     def to_dict(self) -> Dict[str, Any]:
         return self.__dict__
 
-    def to_db_dict(self) -> Dict[str, Any]:
-        return self.__dict__
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "Data":

@@ -19,7 +19,7 @@ class SQLiteDB(DBInterface):
 
     def create(self, model: BaseModel) -> int:
         table = model.get_table_name()
-        fields = model.to_db_dict()
+        fields = model.to_dict()
         columns = ', '.join(fields.keys())
         placeholders = ', '.join(['?'] * len(fields))
         query = f"INSERT INTO {table} ({columns}) VALUES ({placeholders})"
@@ -33,12 +33,12 @@ class SQLiteDB(DBInterface):
             return []
 
         table = models[0].get_table_name()
-        fields = models[0].to_db_dict().keys()
+        fields = models[0].to_dict().keys()
         columns = ', '.join(fields)
         placeholders = ', '.join(['?'] * len(fields))
         query = f"INSERT INTO {table} ({columns}) VALUES ({placeholders})"
         cursor = self.connection.cursor()
-        values = [tuple(model.to_db_dict().values()) for model in models]
+        values = [tuple(model.to_dict().values()) for model in models]
         cursor.executemany(query, values)
         self.connection.commit()
         return [row[0] for row in cursor.execute("SELECT last_insert_rowid()").fetchall()]
