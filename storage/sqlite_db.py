@@ -18,18 +18,11 @@ class SQLiteDB(DBInterface):
         return query.replace("%s", "?")
 
     def create(self, model: BaseModel) -> int:
-        table = model.get_table_name()
-        fields = model.to_dict()
-        columns = ', '.join(fields.keys())
-        placeholders = ', '.join(['?'] * len(fields))
-        query = f"INSERT INTO {table} ({columns}) VALUES ({placeholders})"
-        cursor = self.connection.cursor()
-        cursor.execute(query, tuple(fields.values()))
-        self.connection.commit()
-        return cursor.lastrowid
+        pass
 
     def insert_many(self, models: List[BaseModel]) -> List[int]:
-        if not models:
+        pass
+"""        if not models:
             return []
 
         table = models[0].get_table_name()
@@ -41,4 +34,4 @@ class SQLiteDB(DBInterface):
         values = [tuple(model.to_dict().values()) for model in models]
         cursor.executemany(query, values)
         self.connection.commit()
-        return [row[0] for row in cursor.execute("SELECT last_insert_rowid()").fetchall()]
+        return [row[0] for row in cursor.execute("SELECT last_insert_rowid()").fetchall()]"""

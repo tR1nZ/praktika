@@ -5,6 +5,7 @@ from storage.models import Param
 def main():
     db = SQLiteDB("my_data.db")
     params = JSONLoader.load_from_file("examples/data.json", Param)
+    db.create([params])
     db.insert_many([params]) # принимает List -> оборачиваем в скобки
 
 
