@@ -1,59 +1,61 @@
 from storage.base_model import BaseModel
 import json
 from typing import Dict, Any
+from dataclasses import dataclass
 
 
+
+@dataclass
 class Param(BaseModel):
-    def __init__(self, dlstr, is_am, kgd, kgrs, n1grs, ndec, nfgd_fu, nl, samples_num, shgd, true_nihs):
-        self.dlstr = dlstr
-        self.is_am = is_am
-        self.kgd = kgd
-        self.kgrs = kgrs
-        self.n1grs = n1grs
-        self.ndec = ndec
-        self.nfgd_fu = nfgd_fu
-        self.nl = nl
-        self.samples_num = samples_num
-        self.shgd = shgd
-        self.true_nihs = true_nihs
-
-    def to_dict(self) -> Dict[str, Any]:
-        return self.__dict__
+    nl: int
+    true_nihs: int
+    samples_num: int
+    kgd: int
+    nfgd_fu: int
+    shgd: int
+    kgrs: int
+    n1grs: int
+    dlstr: int
+    ndec: int
+    is_am: int # bool
 
 
-    @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "Param":
-        if 'params' in data:
-            data = data['params']
-        return cls(**data)
-
-    @classmethod
-    def get_table_name(cls) -> str:
-        return "param"
+class Timestamp(BaseModel):
+    duration:float
+    end:float
+    start:float
 
 
 class Time(BaseModel):
-    def __init__(self, cpu_test, date, fft, read_data, sine, time, total, write):
-        self.cpu_test = cpu_test
-        self.date = date
-        self.fft = fft
-        self.read_data = read_data
-        self.sine = sine
-        self.time = time
-        self.total = total
-        self.write = write
 
-    def to_dict(self) -> Dict[str, Any]:
-        return self.__dict__
-
+    date: str
+    time: str
+    
+    # Временные интервалы как объекты Timestamp
+    cpu_testing_time: Timestamp
+    fft: Timestamp
+    read_data: Timestamp
+    sine: Timestamp
+    total: Timestamp
+    write_data: Timestamp
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "Time":
-        return cls(**data)
+    def from_dict(cls, data: Dict[str, Any]):
+        # Основные поля
+        result = {
+            'date': data['date'],
+            'time': data['time']
+        }
+        
+        # Автоматически создаем Timestamp объекты
+        for key, value in data.items():
+            if key not in ['date', 'time'] and isinstance(value, dict):
+                result[key] = Timestamp.from_dict(value)
+        
+        return cls(**result)
 
-    @classmethod
-    def get_table_name(cls) -> str:
-        return "time"
+
+
 
 
 class Verif(BaseModel):

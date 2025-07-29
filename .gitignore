@@ -1,5 +1,5 @@
 my_data.db
-.venv
+.venv/
 examples/data.json
 examples/strobe.json
-storage/__pycache__
+storage/__pycache__/
