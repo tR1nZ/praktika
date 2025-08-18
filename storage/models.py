@@ -57,77 +57,60 @@ class Time(BaseModel):
 
 
 
-
-class Verif(BaseModel):
-    def __init__(self, valid, out_verif, src, verif_data):
-        self.valid = valid
-        self.out_verif = out_verif
-        self.src = src
-        self.verif_data = verif_data
-
-    def to_dict(self) -> Dict[str, Any]:
-        return self.__dict__
+class Verifstamp(BaseModel):
+    kgd: int
+    kgrs: int
+    value: float
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "Verif":
+    def from_dict(cls, data: Dict[str, Any]):
         return cls(**data)
 
+
+class Verif(BaseModel):
+    valid: int  # bool в виде int (0/1)
+    out_verif: list(list(Verifstamp))
+    src_verif: list(list(Verifstamp))
+
     @classmethod
-    def get_table_name(cls) -> str:
-        return "verif"
+    def from_dict(cls, data: Dict[str, Any]):
+        return cls(
+            valid=data["is_data_valid"],
+            out_verif=[
+                [Verifstamp.from_dict(item) for item in group]
+                for group in data.get("out_verif", [])
+            ],
+            src_verif=[
+                [Verifstamp.from_dict(item) for item in group]
+                for group in data.get("src_verif", [])
+            ],
+        )
+
+
 
 
 class Strobe(BaseModel):
-    def __init__(self, values):
-        self.values = values
+    _values:dict #нельзя хранить в бд
+    path:str
+    length:int
 
-    def to_dict(self) -> Dict[str, Any]:
-        return {"values": self.values}
-
-    @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "Strobe":
-        return cls(data["values"])
-
-    @classmethod
-    def get_table_name(cls) -> str:
-        return "strobe"
 
 
 class Output(BaseModel):
-    def __init__(self, out_arr, out_verif):
-        self.out_arr = out_arr
-        self.out_verif = out_verif
+    out_arr: list
+    out_verif: list
 
-    def to_dict(self) -> Dict[str, Any]:
-        return {"out_arr": self.out_arr, "out_verif": self.out_verif}
 
-    @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "Output":
-        return cls(data["out_arr"], data["out_verif"])
 
-    @classmethod
-    def get_table_name(cls) -> str:
-        return "output"
 
 
 class Data(BaseModel):
-    def __init__(self, param_id, time_id, verif_id, strobe_id, output_id, polar, path):
-        self.param_id = param_id
-        self.time_id = time_id
-        self.verif_id = verif_id
-        self.strobe_id = strobe_id
-        self.output_id = output_id
-        self.polar = polar
-        self.path = path
-
-    def to_dict(self) -> Dict[str, Any]:
-        return self.__dict__
+    param_id: int
+    time_id: int
+    verif_id: int
+    strobe_id: int
+    output_id: int
+    polar: int
+    path: str
 
 
-    @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "Data":
-        return cls(**data)
-
-    @classmethod
-    def get_table_name(cls) -> str:
-        return "data"
