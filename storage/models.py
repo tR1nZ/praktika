@@ -2,8 +2,8 @@ from storage.base_model import BaseModel
 import json
 from typing import Dict, Any
 from dataclasses import dataclass
-
-
+import numpy as np
+import numpy.typing as npt
 
 @dataclass
 class Param(BaseModel):
@@ -57,53 +57,56 @@ class Time(BaseModel):
 
 
 
+
+
+class Strobe(BaseModel):
+    _values: npt.NDArray #нельзя хранить в бд
+    # _values:dict #нельзя хранить в бд
+    path:str
+    length:int
+
 class Verifstamp(BaseModel):
     kgd: int
     kgrs: int
     value: float
 
-    @classmethod
-    def from_dict(cls, data: Dict[str, Any]):
-        return cls(**data)
-
+    # @classmethod
+    # def from_dict(cls, data: Dict[str, Any]):
+    #     return cls(**data)
 
 class Verif(BaseModel):
-    valid: int  # bool в виде int (0/1)
-    out_verif: list(list(Verifstamp))
-    src_verif: list(list(Verifstamp))
+    # valid: int  # bool в виде int (0/1)
+    verif: npt.NDArray
+    # src_verif: npt.NDArray
+    # ftps: Strobe
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]):
         return cls(
-            valid=data["is_data_valid"],
-            out_verif=[
-                [Verifstamp.from_dict(item) for item in group]
-                for group in data.get("out_verif", [])
-            ],
-            src_verif=[
+            verif=np.NDArray([
                 [Verifstamp.from_dict(item) for item in group]
                 for group in data.get("src_verif", [])
-            ],
+            ]),
         )
+    
+    def to_dict():
+        pass
 
 
-
-
-class Strobe(BaseModel):
-    _values:dict #нельзя хранить в бд
-    path:str
-    length:int
-
-
+"""
+class Input(BaseModel):
+    verif: Verif
+    verif_seq: Strobe[complex_double] #ftps
+    data: Strobe[complex_int64]
+    param: Param
+    mseq: Strobe[npt.int8]
+    test_name: str
 
 class Output(BaseModel):
-    out_arr: list
-    out_verif: list
-
-
-
-
-
+    verif: Verif
+    data: Strobe[complex_double]
+    time: Time
+"""
 class Data(BaseModel):
     param_id: int
     time_id: int
@@ -113,4 +116,18 @@ class Data(BaseModel):
     polar: int
     path: str
 
+class InputDB(BaseModel):
+    id: int
+    param_id: int # FK
+    verif_id: int
+    verif_seq_id: int
+    input_data_id: int
+    mseq_id: int
+    path: str
 
+class OutputDB(BaseModel):
+    id: int
+    verif_id: int
+    output_data_id: int
+    time_id: int
+    input_id: int
